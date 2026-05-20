@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Cueku Store | Katalog Produk</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1a1a1a;
+            min-height: 100vh;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-area h1 {
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #ffffff, #e2e8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-area small {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .admin-trigger {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            backdrop-filter: blur(8px);
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .admin-trigger:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .whatsapp-float {
+            background: #25D366;
+            color: white;
+            padding: 0.6rem 1.4rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            box-shadow: 0 8px 16px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-float:hover {
+            background: #20b858;
+            transform: scale(1.02);
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.05), 0 8px 16px rgba(0,0,0,0.03);
+            transition: transform 0.25s ease, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 28px 45px rgba(0,0,0,0.1), 0 10px 20px rgba(0,0,0,0.06);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            background: #f1f5f9;
+            transition: transform 0.4s;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.03);
+        }
+
+        .product-info {
+            padding: 1.4rem 1.4rem 1.2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-name {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 0.4rem;
+            color: #0f172a;
+        }
+
+        .product-desc {
+            color: #475569;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .product-price {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #0f172a;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .product-price span {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        .btn-order {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 2.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-top: 0.3rem;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-order:hover {
+            background: #1da851;
+            box-shadow: 0 8px 18px rgba(37, 211, 102, 0.45);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            grid-column: 1 / -1;
+            color: #64748b;
+        }
+
+        .empty-state i {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .admin-panel {
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.08);
+            display: none;
+            transition: all 0.3s;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-panel h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            margin-bottom: 1.8rem;
+            color: #0f172a;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #334155;
+        }
+
+        .input-group input, .input-group textarea {
+            padding: 0.9rem 1.2rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 1.2rem;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            background: #f8fafc;
+        }
+
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #25D366;
+            box-shadow: 0 0 0 3px rgba(37,211,102,0.15);
+            background: white;
+        }
+
+        .btn-upload {
+            background: #0f172a;
+            color: white;
+            padding: 0.8rem 1.6rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+
+        .btn-upload:hover {
+            background: #1e293b;
+        }
+
+        .btn-add {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 2.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 1.2rem;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-add:hover {
+            background: #1da851;
+        }
+
+        .image-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 1rem;
+            object-fit: cover;
+            margin-top: 0.5rem;
+            border: 2px dashed #cbd5e1;
+            display: none;
+        }
+
+        .product-list-admin {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .admin-product-item {
+            background: #f1f5f9;
+            border-radius: 1rem;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin-product-item img {
+            width: 45px;
+            height: 45px;
+            border-radius: 0.7rem;
+            object-fit: cover;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-area">
+            <h1>CUEKU STORE</h1>
+            <small>Katalog Premium • Sejak 2020</small>
+        </div>
+        <div class="header-actions">
+            <a href="#" id="adminToggleBtn" class="admin-trigger"><i class="fas fa-cogs"></i> Kelola Katalog</a>
+            <a href="https://wa.me/62895419050123?text=Halo%20Cueku%20Store%2C%20saya%20mau%20order" target="_blank" class="whatsapp-float">
+                <i class="fab fa-whatsapp"></i> Chat Admin
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="productContainer" class="product-grid"></div>
+
+        <div id="adminPanel" class="admin-panel">
+            <h2><i class="fas fa-plus-circle"></i> Tambah Produk Baru</h2>
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Nama Produk</label>
+                    <input type="text" id="prodName" placeholder="Contoh: Tas Kulit Premium">
+                </div>
+                <div class="input-group">
+                    <label>Harga (Rp)</label>
+                    <input type="number" id="prodPrice" placeholder="150000" min="0">
+                </div>
+                <div class="input-group" style="grid-column: span 2;">
+                    <label>Deskripsi Singkat</label>
+                    <textarea id="prodDesc" rows="2" placeholder="Deskripsi produk..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label>Upload Gambar</label>
+                    <input type="file" id="imageUpload" accept="image/*" style="display:none;">
+                    <button type="button" class="btn-upload" id="triggerUpload"><i class="fas fa-camera"></i> Pilih Gambar</button>
+                    <img id="imagePreview" class="image-preview" alt="preview">
+                </div>
+            </div>
+            <button class="btn-add" id="addProductBtn"><i class="fas fa-save"></i> Simpan Produk</button>
+            
+            <div style="margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;"><i class="fas fa-list"></i> Produk Tersimpan</h3>
+                <div id="adminProductList" class="product-list-admin"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2020 Cueku Store. All rights reserved. | Order langsung via WhatsApp
+    </footer>
+
+    <script>
+        (function() {
+            const STORAGE_KEY = 'cueku_store_products';
+            // Nomor WhatsApp lu (0895419050123 -> 62895419050123)
+            const ADMIN_WA_NUMBER = '62895419050123'; 
+
+            let products = [];
+            let selectedImageData = null;
+
+            const productContainer = document.getElementById('productContainer');
+            const adminPanel = document.getElementById('adminPanel');
+            const adminToggleBtn = document.getElementById('adminToggleBtn');
+            const prodName = document.getElementById('prodName');
+            const prodPrice = document.getElementById('prodPrice');
+            const prodDesc = document.getElementById('prodDesc');
+            const imageUpload = document.getElementById('imageUpload');
+            const triggerUpload = document.getElementById('triggerUpload');
+            const imagePreview = document.getElementById('imagePreview');
+            const addProductBtn = document.getElementById('addProductBtn');
+            const adminProductList = document.getElementById('adminProductList');
+
+            function loadProducts() {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored) {
+                    try {
+                        products = JSON.parse(stored);
+                    } catch (e) {
+                        products = [];
+                    }
+                } else {
+                    // Produk contoh default
+                    products = [
+                        {
+                            id: Date.now() + 1,
+                            name: 'Tas Ransel Kulit Vintage',
+                            price: 450000,
+                            desc: 'Tas kulit asli dengan desain klasik, cocok untuk casual dan kerja.',
+                            image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                        },
+                        {
+                            id: Date.now() + 2,
+                            name: 'Sepatu Sneakers Putih',
+                            price: 320000,
+                            desc: 'Sneakers nyaman bahan kanvas premium, size 38-43.',
+                            image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                        }
+                    ];
+                    saveProducts();
+                }
+            }
+
+            function saveProducts() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+            }
+
+            function renderCatalog() {
+                if (!productContainer) return;
+                if (products.length === 0) {
+                    productContainer.innerHTML = `
+                        <div class="empty-state fade-in">
+                            <i class="fas fa-box-open"></i>
+                            <h3>Belum ada produk</h3>
+                            <p>Silakan tambahkan produk melalui panel admin.</p>
+                        </div>`;
+                    return;
+                }
+
+                let html = '';
+                products.forEach(prod => {
+                    const priceFormatted = new Intl.NumberFormat('id-ID').format(prod.price);
+                    const waMessage = `Halo Cueku Store, saya tertarik dengan produk *${prod.name}* seharga Rp${priceFormatted}. Apakah masih tersedia?`;
+                    const waLink = `https://wa.me/${ADMIN_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+                    
+                    html += `
+                        <div class="product-card fade-in">
+                            <img src="${prod.image}" alt="${prod.name}" class="product-img" loading="lazy" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x300/f1f5f9/64748b?text=No+Image';">
+                            <div class="product-info">
+                                <h3 class="product-name">${prod.name}</h3>
+                                <p class="product-desc">${prod.desc || 'Produk berkualitas.'}</p>
+                                <div class="product-price">Rp${priceFormatted} <span></span></div>
+                                <a href="${waLink}" target="_blank" class="btn-order">
+                                    <i class="fab fa-whatsapp"></i> Order via WhatsApp
+                                </a>
+                            </div>
+                        </div>`;
+                });
+                productContainer.innerHTML = html;
+            }
+
+            function renderAdminList() {
+                if (!adminProductList) return;
+                if (products.length === 0) {
+                    adminProductList.innerHTML = '<p style="color:#64748b;">Belum ada produk.</p>';
+                    return;
+                }
+                let listHtml = '';
+                products.forEach(prod => {
+                    listHtml += `
+                        <div class="admin-product-item">
+                            <img src="${prod.image}" onerror="this.onerror=null;this.src='https://via.placeholder.com/45';">
+                            <div style="flex:1;"><strong>${prod.name}</strong> - Rp${new Intl.NumberFormat('id-ID').format(prod.price)}</div>
+                            <button class="delete-btn" data-id="${prod.id}" title="Hapus"><i class="fas fa-trash-alt"></i></button>
+                        </div>`;
+                });
+                adminProductList.innerHTML = listHtml;
+
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        const id = Number(this.getAttribute('data-id'));
+                        deleteProduct(id);
+                    });
+                });
+            }
+
+            function deleteProduct(id) {
+                products = products.filter(p => p.id !== id);
+                saveProducts();
+                renderCatalog();
+                renderAdminList();
+            }
+
+            triggerUpload.addEventListener('click', () => {
+                imageUpload.click();
+            });
+
+            imageUpload.addEventListener('change', function() {
+                const file = this.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedImageData = e.target.result;
+                    imagePreview.src = selectedImageData;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            });
+
+            addProductBtn.addEventListener('click', () => {
+                const name = prodName.value.trim();
+                const price = parseInt(prodPrice.value);
+                const desc = prodDesc.value.trim();
+
+                if (!name || isNaN(price) || price <= 0) {
+                    alert('Nama produk dan harga valid harus diisi.');
+                    return;
+                }
+                if (!selectedImageData) {
+                    alert('Silakan upload gambar produk.');
+                    return;
+                }
+
+                const newProduct = {
+                    id: Date.now(),
+                    name: name,
+                    price: price,
+                    desc: desc,
+                    image: selectedImageData
+                };
+
+                products.push(newProduct);
+                saveProducts();
+
+                prodName.value = '';
+                prodPrice.value = '';
+                prodDesc.value = '';
+                imageUpload.value = '';
+                selectedImageData = null;
+                imagePreview.style.display = 'none';
+                imagePreview.src = '';
+
+                renderCatalog();
+                renderAdminList();
+            });
+
+            adminToggleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                adminPanel.classList.toggle('active');
+                if (adminPanel.classList.contains('active')) {
+                    adminPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                renderAdminList();
+            });
+
+            loadProducts();
+            renderCatalog();
+            renderAdminList();
+        })();
+    </script>
+</body>
+</html>
